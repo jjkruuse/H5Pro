@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="H5projekt" Class="DataClassDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=h5projekt.database.windows.net;Initial Catalog=H5projekt;User ID=h5pAdmin" SettingsObjectName="H5pro.Properties.Settings" SettingsPropertyName="H5projektConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Users" Member="Users">
+    <Type Name="User">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="UserName" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="Password" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="Age" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Gender" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RememberMe" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MatchCriteria" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="StreamingService" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Association Name="User_Message" Member="Messages" ThisKey="Id" OtherKey="MessageTo" Type="Message" />
+      <Association Name="User_Message1" Member="Messages1" ThisKey="Id" OtherKey="Messagefrom" Type="Message" />
+      <Association Name="MatchCriteria_User" Member="MatchCriteria1" ThisKey="MatchCriteria" OtherKey="Id" Type="MatchCriteria" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Tv" Member="Tvs">
+    <Type Name="Tv">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="Genre" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="Seasons" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Association Name="Tv_MatchCriteria" Member="MatchCriterias" ThisKey="Id" OtherKey="Gender" Type="MatchCriteria" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Movies" Member="Movies">
+    <Type Name="Movies">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="Gerne" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="Length" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Descrition" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Association Name="Movy_MatchCriteria" Member="MatchCriterias" ThisKey="Id" OtherKey="IntoTV" Type="MatchCriteria" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Messages" Member="Messages">
+    <Type Name="Message">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MessageTo" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Messagefrom" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Text" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="sent" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="User_Message" Member="User" ThisKey="MessageTo" OtherKey="Id" Type="User" IsForeignKey="true" />
+      <Association Name="User_Message1" Member="User1" ThisKey="Messagefrom" OtherKey="Id" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MatchCriteria" Member="MatchCriterias">
+    <Type Name="MatchCriteria">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Gender" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IntoTV" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IntoMovies" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Commitment" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="MatchCriteria_User" Member="Users" ThisKey="Id" OtherKey="MatchCriteria" Type="User" />
+      <Association Name="Tv_MatchCriteria" Member="Tv" ThisKey="Gender" OtherKey="Id" Type="Tv" IsForeignKey="true" />
+      <Association Name="Movy_MatchCriteria" Member="Movies" ThisKey="IntoTV" OtherKey="Id" Type="Movies" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
