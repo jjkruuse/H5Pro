@@ -1,0 +1,14 @@
+﻿@model H5pro.User
+
+@{
+    ViewBag.Title = "UserProfil";
+}
+
+<h2>UserProfil</h2>
+
+<fieldset>
+    @if (Session["UserName"] != null)
+    {
+        <text> Welcome @Session["UserName"].ToString() </text>
+    }
+</fieldset>
