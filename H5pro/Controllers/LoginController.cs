@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace H5pro.Controllers
 {
@@ -43,6 +44,13 @@ namespace H5pro.Controllers
             {
                 return RedirectToAction("Login", "Login");
             }
+        }
+
+        public ActionResult LogOut()
+        {
+            FormsAuthentication.SignOut();
+            Session.Abandon(); // it will clear the session at the end of request
+            return RedirectToAction("Index", "Home");
         }
     }
 }
