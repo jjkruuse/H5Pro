@@ -33,12 +33,9 @@ namespace H5pro
     partial void InsertUser(User instance);
     partial void UpdateUser(User instance);
     partial void DeleteUser(User instance);
-    partial void InsertTv(Tv instance);
-    partial void UpdateTv(Tv instance);
-    partial void DeleteTv(Tv instance);
-    partial void InsertMovies(Movies instance);
-    partial void UpdateMovies(Movies instance);
-    partial void DeleteMovies(Movies instance);
+    partial void InsertShow(Show instance);
+    partial void UpdateShow(Show instance);
+    partial void DeleteShow(Show instance);
     partial void InsertMessage(Message instance);
     partial void UpdateMessage(Message instance);
     partial void DeleteMessage(Message instance);
@@ -85,19 +82,11 @@ namespace H5pro
 			}
 		}
 		
-		public System.Data.Linq.Table<Tv> Tvs
+		public System.Data.Linq.Table<Show> Shows
 		{
 			get
 			{
-				return this.GetTable<Tv>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Movies> Movies
-		{
-			get
-			{
-				return this.GetTable<Movies>();
+				return this.GetTable<Show>();
 			}
 		}
 		
@@ -106,6 +95,14 @@ namespace H5pro
 			get
 			{
 				return this.GetTable<Message>();
+			}
+		}
+		
+		public System.Data.Linq.Table<MCShowRelation> MCShowRelations
+		{
+			get
+			{
+				return this.GetTable<MCShowRelation>();
 			}
 		}
 		
@@ -124,83 +121,99 @@ namespace H5pro
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _Id;
+		private int _UserID;
+		
+		private string _Username;
 		
 		private string _Email;
 		
-		private string _UserName;
+		private System.Data.Linq.Binary _PasswordHash;
 		
-		private string _Password;
+		private System.Nullable<System.Guid> _Salt;
 		
-		private System.Nullable<int> _Age;
+		private int _Age;
 		
-		private System.Nullable<int> _Gender;
+		private int _Gender;
 		
-		private System.Nullable<int> _RememberMe;
-		
-		private System.Nullable<int> _MatchCriteria;
-		
-		private string _StreamingService;
+		private System.Nullable<int> _MCID;
 		
 		private EntitySet<Message> _Messages;
 		
 		private EntitySet<Message> _Messages1;
 		
-		private EntityRef<MatchCriteria> _MatchCriteria1;
+		private EntityRef<MatchCriteria> _MatchCriteria;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
+    partial void OnUserIDChanging(int value);
+    partial void OnUserIDChanged();
+    partial void OnUsernameChanging(string value);
+    partial void OnUsernameChanged();
     partial void OnEmailChanging(string value);
     partial void OnEmailChanged();
-    partial void OnUserNameChanging(string value);
-    partial void OnUserNameChanged();
-    partial void OnPasswordChanging(string value);
-    partial void OnPasswordChanged();
-    partial void OnAgeChanging(System.Nullable<int> value);
+    partial void OnPasswordHashChanging(System.Data.Linq.Binary value);
+    partial void OnPasswordHashChanged();
+    partial void OnSaltChanging(System.Nullable<System.Guid> value);
+    partial void OnSaltChanged();
+    partial void OnAgeChanging(int value);
     partial void OnAgeChanged();
-    partial void OnGenderChanging(System.Nullable<int> value);
+    partial void OnGenderChanging(int value);
     partial void OnGenderChanged();
-    partial void OnRememberMeChanging(System.Nullable<int> value);
-    partial void OnRememberMeChanged();
-    partial void OnMatchCriteriaChanging(System.Nullable<int> value);
-    partial void OnMatchCriteriaChanged();
-    partial void OnStreamingServiceChanging(string value);
-    partial void OnStreamingServiceChanged();
+    partial void OnMCIDChanging(System.Nullable<int> value);
+    partial void OnMCIDChanged();
     #endregion
 		
 		public User()
 		{
 			this._Messages = new EntitySet<Message>(new Action<Message>(this.attach_Messages), new Action<Message>(this.detach_Messages));
 			this._Messages1 = new EntitySet<Message>(new Action<Message>(this.attach_Messages1), new Action<Message>(this.detach_Messages1));
-			this._MatchCriteria1 = default(EntityRef<MatchCriteria>);
+			this._MatchCriteria = default(EntityRef<MatchCriteria>);
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int Id
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int UserID
 		{
 			get
 			{
-				return this._Id;
+				return this._UserID;
 			}
 			set
 			{
-				if ((this._Id != value))
+				if ((this._UserID != value))
 				{
-					this.OnIdChanging(value);
+					this.OnUserIDChanging(value);
 					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
+					this._UserID = value;
+					this.SendPropertyChanged("UserID");
+					this.OnUserIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="VarChar(255)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Username", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string Username
+		{
+			get
+			{
+				return this._Username;
+			}
+			set
+			{
+				if ((this._Username != value))
+				{
+					this.OnUsernameChanging(value);
+					this.SendPropertyChanging();
+					this._Username = value;
+					this.SendPropertyChanged("Username");
+					this.OnUsernameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
 		public string Email
 		{
 			get
@@ -220,48 +233,48 @@ namespace H5pro
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="VarChar(255)")]
-		public string UserName
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PasswordHash", DbType="Binary(64) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public System.Data.Linq.Binary PasswordHash
 		{
 			get
 			{
-				return this._UserName;
+				return this._PasswordHash;
 			}
 			set
 			{
-				if ((this._UserName != value))
+				if ((this._PasswordHash != value))
 				{
-					this.OnUserNameChanging(value);
+					this.OnPasswordHashChanging(value);
 					this.SendPropertyChanging();
-					this._UserName = value;
-					this.SendPropertyChanged("UserName");
-					this.OnUserNameChanged();
+					this._PasswordHash = value;
+					this.SendPropertyChanged("PasswordHash");
+					this.OnPasswordHashChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="VarChar(255)")]
-		public string Password
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Salt", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> Salt
 		{
 			get
 			{
-				return this._Password;
+				return this._Salt;
 			}
 			set
 			{
-				if ((this._Password != value))
+				if ((this._Salt != value))
 				{
-					this.OnPasswordChanging(value);
+					this.OnSaltChanging(value);
 					this.SendPropertyChanging();
-					this._Password = value;
-					this.SendPropertyChanged("Password");
-					this.OnPasswordChanged();
+					this._Salt = value;
+					this.SendPropertyChanged("Salt");
+					this.OnSaltChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Age", DbType="Int")]
-		public System.Nullable<int> Age
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Age", DbType="Int NOT NULL")]
+		public int Age
 		{
 			get
 			{
@@ -280,8 +293,8 @@ namespace H5pro
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Gender", DbType="Int")]
-		public System.Nullable<int> Gender
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Gender", DbType="Int NOT NULL")]
+		public int Gender
 		{
 			get
 			{
@@ -300,71 +313,31 @@ namespace H5pro
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RememberMe", DbType="Int")]
-		public System.Nullable<int> RememberMe
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MCID", DbType="Int")]
+		public System.Nullable<int> MCID
 		{
 			get
 			{
-				return this._RememberMe;
+				return this._MCID;
 			}
 			set
 			{
-				if ((this._RememberMe != value))
+				if ((this._MCID != value))
 				{
-					this.OnRememberMeChanging(value);
-					this.SendPropertyChanging();
-					this._RememberMe = value;
-					this.SendPropertyChanged("RememberMe");
-					this.OnRememberMeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MatchCriteria", DbType="Int")]
-		public System.Nullable<int> MatchCriteria
-		{
-			get
-			{
-				return this._MatchCriteria;
-			}
-			set
-			{
-				if ((this._MatchCriteria != value))
-				{
-					if (this._MatchCriteria1.HasLoadedOrAssignedValue)
+					if (this._MatchCriteria.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnMatchCriteriaChanging(value);
+					this.OnMCIDChanging(value);
 					this.SendPropertyChanging();
-					this._MatchCriteria = value;
-					this.SendPropertyChanged("MatchCriteria");
-					this.OnMatchCriteriaChanged();
+					this._MCID = value;
+					this.SendPropertyChanged("MCID");
+					this.OnMCIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StreamingService", DbType="VarChar(255)")]
-		public string StreamingService
-		{
-			get
-			{
-				return this._StreamingService;
-			}
-			set
-			{
-				if ((this._StreamingService != value))
-				{
-					this.OnStreamingServiceChanging(value);
-					this.SendPropertyChanging();
-					this._StreamingService = value;
-					this.SendPropertyChanged("StreamingService");
-					this.OnStreamingServiceChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Message", Storage="_Messages", ThisKey="Id", OtherKey="MessageTo")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Message", Storage="_Messages", ThisKey="UserID", OtherKey="FromUser")]
 		public EntitySet<Message> Messages
 		{
 			get
@@ -377,7 +350,7 @@ namespace H5pro
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Message1", Storage="_Messages1", ThisKey="Id", OtherKey="Messagefrom")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Message1", Storage="_Messages1", ThisKey="UserID", OtherKey="ToUser")]
 		public EntitySet<Message> Messages1
 		{
 			get
@@ -390,36 +363,36 @@ namespace H5pro
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MatchCriteria_User", Storage="_MatchCriteria1", ThisKey="MatchCriteria", OtherKey="Id", IsForeignKey=true)]
-		public MatchCriteria MatchCriteria1
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MatchCriteria_User", Storage="_MatchCriteria", ThisKey="MCID", OtherKey="MCID", IsForeignKey=true)]
+		public MatchCriteria MatchCriteria
 		{
 			get
 			{
-				return this._MatchCriteria1.Entity;
+				return this._MatchCriteria.Entity;
 			}
 			set
 			{
-				MatchCriteria previousValue = this._MatchCriteria1.Entity;
+				MatchCriteria previousValue = this._MatchCriteria.Entity;
 				if (((previousValue != value) 
-							|| (this._MatchCriteria1.HasLoadedOrAssignedValue == false)))
+							|| (this._MatchCriteria.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._MatchCriteria1.Entity = null;
+						this._MatchCriteria.Entity = null;
 						previousValue.Users.Remove(this);
 					}
-					this._MatchCriteria1.Entity = value;
+					this._MatchCriteria.Entity = value;
 					if ((value != null))
 					{
 						value.Users.Add(this);
-						this._MatchCriteria = value.Id;
+						this._MCID = value.MCID;
 					}
 					else
 					{
-						this._MatchCriteria = default(Nullable<int>);
+						this._MCID = default(Nullable<int>);
 					}
-					this.SendPropertyChanged("MatchCriteria1");
+					this.SendPropertyChanged("MatchCriteria");
 				}
 			}
 		}
@@ -469,67 +442,56 @@ namespace H5pro
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Tv")]
-	public partial class Tv : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Shows")]
+	public partial class Show : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _Id;
+		private int _ShowID;
 		
 		private string _Title;
 		
 		private string _Genre;
 		
-		private System.Nullable<int> _Seasons;
-		
-		private string _Description;
-		
-		private EntitySet<MatchCriteria> _MatchCriterias;
-		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
+    partial void OnShowIDChanging(int value);
+    partial void OnShowIDChanged();
     partial void OnTitleChanging(string value);
     partial void OnTitleChanged();
     partial void OnGenreChanging(string value);
     partial void OnGenreChanged();
-    partial void OnSeasonsChanging(System.Nullable<int> value);
-    partial void OnSeasonsChanged();
-    partial void OnDescriptionChanging(string value);
-    partial void OnDescriptionChanged();
     #endregion
 		
-		public Tv()
+		public Show()
 		{
-			this._MatchCriterias = new EntitySet<MatchCriteria>(new Action<MatchCriteria>(this.attach_MatchCriterias), new Action<MatchCriteria>(this.detach_MatchCriterias));
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int Id
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ShowID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ShowID
 		{
 			get
 			{
-				return this._Id;
+				return this._ShowID;
 			}
 			set
 			{
-				if ((this._Id != value))
+				if ((this._ShowID != value))
 				{
-					this.OnIdChanging(value);
+					this.OnShowIDChanging(value);
 					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
+					this._ShowID = value;
+					this.SendPropertyChanged("ShowID");
+					this.OnShowIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Title", DbType="VarChar(255)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Title", DbType="NVarChar(50)")]
 		public string Title
 		{
 			get
@@ -549,7 +511,7 @@ namespace H5pro
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Genre", DbType="VarChar(255)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Genre", DbType="NVarChar(50)")]
 		public string Genre
 		{
 			get
@@ -569,59 +531,6 @@ namespace H5pro
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Seasons", DbType="Int")]
-		public System.Nullable<int> Seasons
-		{
-			get
-			{
-				return this._Seasons;
-			}
-			set
-			{
-				if ((this._Seasons != value))
-				{
-					this.OnSeasonsChanging(value);
-					this.SendPropertyChanging();
-					this._Seasons = value;
-					this.SendPropertyChanged("Seasons");
-					this.OnSeasonsChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="VarChar(255)")]
-		public string Description
-		{
-			get
-			{
-				return this._Description;
-			}
-			set
-			{
-				if ((this._Description != value))
-				{
-					this.OnDescriptionChanging(value);
-					this.SendPropertyChanging();
-					this._Description = value;
-					this.SendPropertyChanged("Description");
-					this.OnDescriptionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Tv_MatchCriteria", Storage="_MatchCriterias", ThisKey="Id", OtherKey="Gender")]
-		public EntitySet<MatchCriteria> MatchCriterias
-		{
-			get
-			{
-				return this._MatchCriterias;
-			}
-			set
-			{
-				this._MatchCriterias.Assign(value);
-			}
-		}
-		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -640,204 +549,6 @@ namespace H5pro
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-		
-		private void attach_MatchCriterias(MatchCriteria entity)
-		{
-			this.SendPropertyChanging();
-			entity.Tv = this;
-		}
-		
-		private void detach_MatchCriterias(MatchCriteria entity)
-		{
-			this.SendPropertyChanging();
-			entity.Tv = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Movies")]
-	public partial class Movies : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private string _Title;
-		
-		private string _Gerne;
-		
-		private System.Nullable<int> _Length;
-		
-		private string _Descrition;
-		
-		private EntitySet<MatchCriteria> _MatchCriterias;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnTitleChanging(string value);
-    partial void OnTitleChanged();
-    partial void OnGerneChanging(string value);
-    partial void OnGerneChanged();
-    partial void OnLengthChanging(System.Nullable<int> value);
-    partial void OnLengthChanged();
-    partial void OnDescritionChanging(string value);
-    partial void OnDescritionChanged();
-    #endregion
-		
-		public Movies()
-		{
-			this._MatchCriterias = new EntitySet<MatchCriteria>(new Action<MatchCriteria>(this.attach_MatchCriterias), new Action<MatchCriteria>(this.detach_MatchCriterias));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Title", DbType="VarChar(255)")]
-		public string Title
-		{
-			get
-			{
-				return this._Title;
-			}
-			set
-			{
-				if ((this._Title != value))
-				{
-					this.OnTitleChanging(value);
-					this.SendPropertyChanging();
-					this._Title = value;
-					this.SendPropertyChanged("Title");
-					this.OnTitleChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Gerne", DbType="VarChar(255)")]
-		public string Gerne
-		{
-			get
-			{
-				return this._Gerne;
-			}
-			set
-			{
-				if ((this._Gerne != value))
-				{
-					this.OnGerneChanging(value);
-					this.SendPropertyChanging();
-					this._Gerne = value;
-					this.SendPropertyChanged("Gerne");
-					this.OnGerneChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Length", DbType="Int")]
-		public System.Nullable<int> Length
-		{
-			get
-			{
-				return this._Length;
-			}
-			set
-			{
-				if ((this._Length != value))
-				{
-					this.OnLengthChanging(value);
-					this.SendPropertyChanging();
-					this._Length = value;
-					this.SendPropertyChanged("Length");
-					this.OnLengthChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Descrition", DbType="VarChar(255)")]
-		public string Descrition
-		{
-			get
-			{
-				return this._Descrition;
-			}
-			set
-			{
-				if ((this._Descrition != value))
-				{
-					this.OnDescritionChanging(value);
-					this.SendPropertyChanging();
-					this._Descrition = value;
-					this.SendPropertyChanged("Descrition");
-					this.OnDescritionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Movy_MatchCriteria", Storage="_MatchCriterias", ThisKey="Id", OtherKey="IntoTV")]
-		public EntitySet<MatchCriteria> MatchCriterias
-		{
-			get
-			{
-				return this._MatchCriterias;
-			}
-			set
-			{
-				this._MatchCriterias.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_MatchCriterias(MatchCriteria entity)
-		{
-			this.SendPropertyChanging();
-			entity.Movies = this;
-		}
-		
-		private void detach_MatchCriterias(MatchCriteria entity)
-		{
-			this.SendPropertyChanging();
-			entity.Movies = null;
 		}
 	}
 	
@@ -847,15 +558,15 @@ namespace H5pro
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _Id;
+		private int _MessageID;
 		
-		private System.Nullable<int> _MessageTo;
+		private int _ToUser;
 		
-		private System.Nullable<int> _Messagefrom;
+		private int _FromUser;
 		
-		private string _Text;
+		private string _Sub;
 		
-		private System.Nullable<int> _sent;
+		private string _TextMessage;
 		
 		private EntityRef<User> _User;
 		
@@ -865,16 +576,16 @@ namespace H5pro
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnMessageToChanging(System.Nullable<int> value);
-    partial void OnMessageToChanged();
-    partial void OnMessagefromChanging(System.Nullable<int> value);
-    partial void OnMessagefromChanged();
-    partial void OnTextChanging(string value);
-    partial void OnTextChanged();
-    partial void OnsentChanging(System.Nullable<int> value);
-    partial void OnsentChanged();
+    partial void OnMessageIDChanging(int value);
+    partial void OnMessageIDChanged();
+    partial void OnToUserChanging(int value);
+    partial void OnToUserChanged();
+    partial void OnFromUserChanging(int value);
+    partial void OnFromUserChanged();
+    partial void OnSubChanging(string value);
+    partial void OnSubChanged();
+    partial void OnTextMessageChanging(string value);
+    partial void OnTextMessageChanged();
     #endregion
 		
 		public Message()
@@ -884,115 +595,115 @@ namespace H5pro
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int Id
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MessageID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int MessageID
 		{
 			get
 			{
-				return this._Id;
+				return this._MessageID;
 			}
 			set
 			{
-				if ((this._Id != value))
+				if ((this._MessageID != value))
 				{
-					this.OnIdChanging(value);
+					this.OnMessageIDChanging(value);
 					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
+					this._MessageID = value;
+					this.SendPropertyChanged("MessageID");
+					this.OnMessageIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MessageTo", DbType="Int")]
-		public System.Nullable<int> MessageTo
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ToUser", DbType="Int NOT NULL")]
+		public int ToUser
 		{
 			get
 			{
-				return this._MessageTo;
+				return this._ToUser;
 			}
 			set
 			{
-				if ((this._MessageTo != value))
-				{
-					if (this._User.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnMessageToChanging(value);
-					this.SendPropertyChanging();
-					this._MessageTo = value;
-					this.SendPropertyChanged("MessageTo");
-					this.OnMessageToChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Messagefrom", DbType="Int")]
-		public System.Nullable<int> Messagefrom
-		{
-			get
-			{
-				return this._Messagefrom;
-			}
-			set
-			{
-				if ((this._Messagefrom != value))
+				if ((this._ToUser != value))
 				{
 					if (this._User1.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnMessagefromChanging(value);
+					this.OnToUserChanging(value);
 					this.SendPropertyChanging();
-					this._Messagefrom = value;
-					this.SendPropertyChanged("Messagefrom");
-					this.OnMessagefromChanged();
+					this._ToUser = value;
+					this.SendPropertyChanged("ToUser");
+					this.OnToUserChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Text", DbType="VarChar(255)")]
-		public string Text
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FromUser", DbType="Int NOT NULL")]
+		public int FromUser
 		{
 			get
 			{
-				return this._Text;
+				return this._FromUser;
 			}
 			set
 			{
-				if ((this._Text != value))
+				if ((this._FromUser != value))
 				{
-					this.OnTextChanging(value);
+					if (this._User.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnFromUserChanging(value);
 					this.SendPropertyChanging();
-					this._Text = value;
-					this.SendPropertyChanged("Text");
-					this.OnTextChanged();
+					this._FromUser = value;
+					this.SendPropertyChanged("FromUser");
+					this.OnFromUserChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_sent", DbType="Int")]
-		public System.Nullable<int> sent
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Sub", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string Sub
 		{
 			get
 			{
-				return this._sent;
+				return this._Sub;
 			}
 			set
 			{
-				if ((this._sent != value))
+				if ((this._Sub != value))
 				{
-					this.OnsentChanging(value);
+					this.OnSubChanging(value);
 					this.SendPropertyChanging();
-					this._sent = value;
-					this.SendPropertyChanged("sent");
-					this.OnsentChanged();
+					this._Sub = value;
+					this.SendPropertyChanged("Sub");
+					this.OnSubChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Message", Storage="_User", ThisKey="MessageTo", OtherKey="Id", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TextMessage", DbType="VarChar(250) NOT NULL", CanBeNull=false)]
+		public string TextMessage
+		{
+			get
+			{
+				return this._TextMessage;
+			}
+			set
+			{
+				if ((this._TextMessage != value))
+				{
+					this.OnTextMessageChanging(value);
+					this.SendPropertyChanging();
+					this._TextMessage = value;
+					this.SendPropertyChanged("TextMessage");
+					this.OnTextMessageChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Message", Storage="_User", ThisKey="FromUser", OtherKey="UserID", IsForeignKey=true)]
 		public User User
 		{
 			get
@@ -1015,18 +726,18 @@ namespace H5pro
 					if ((value != null))
 					{
 						value.Messages.Add(this);
-						this._MessageTo = value.Id;
+						this._FromUser = value.UserID;
 					}
 					else
 					{
-						this._MessageTo = default(Nullable<int>);
+						this._FromUser = default(int);
 					}
 					this.SendPropertyChanged("User");
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Message1", Storage="_User1", ThisKey="Messagefrom", OtherKey="Id", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Message1", Storage="_User1", ThisKey="ToUser", OtherKey="UserID", IsForeignKey=true)]
 		public User User1
 		{
 			get
@@ -1049,11 +760,11 @@ namespace H5pro
 					if ((value != null))
 					{
 						value.Messages1.Add(this);
-						this._Messagefrom = value.Id;
+						this._ToUser = value.UserID;
 					}
 					else
 					{
-						this._Messagefrom = default(Nullable<int>);
+						this._ToUser = default(int);
 					}
 					this.SendPropertyChanged("User1");
 				}
@@ -1081,136 +792,99 @@ namespace H5pro
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MCShowRelation")]
+	public partial class MCShowRelation
+	{
+		
+		private int _MCID;
+		
+		private int _ShowID;
+		
+		public MCShowRelation()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MCID", DbType="Int NOT NULL")]
+		public int MCID
+		{
+			get
+			{
+				return this._MCID;
+			}
+			set
+			{
+				if ((this._MCID != value))
+				{
+					this._MCID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ShowID", DbType="Int NOT NULL")]
+		public int ShowID
+		{
+			get
+			{
+				return this._ShowID;
+			}
+			set
+			{
+				if ((this._ShowID != value))
+				{
+					this._ShowID = value;
+				}
+			}
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MatchCriteria")]
 	public partial class MatchCriteria : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _Id;
-		
-		private System.Nullable<int> _Gender;
-		
-		private System.Nullable<int> _IntoTV;
-		
-		private System.Nullable<int> _IntoMovies;
+		private int _MCID;
 		
 		private System.Nullable<int> _Commitment;
 		
+		private System.Nullable<int> _StreamingServices;
+		
 		private EntitySet<User> _Users;
-		
-		private EntityRef<Tv> _Tv;
-		
-		private EntityRef<Movies> _Movies;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnGenderChanging(System.Nullable<int> value);
-    partial void OnGenderChanged();
-    partial void OnIntoTVChanging(System.Nullable<int> value);
-    partial void OnIntoTVChanged();
-    partial void OnIntoMoviesChanging(System.Nullable<int> value);
-    partial void OnIntoMoviesChanged();
+    partial void OnMCIDChanging(int value);
+    partial void OnMCIDChanged();
     partial void OnCommitmentChanging(System.Nullable<int> value);
     partial void OnCommitmentChanged();
+    partial void OnStreamingServicesChanging(System.Nullable<int> value);
+    partial void OnStreamingServicesChanged();
     #endregion
 		
 		public MatchCriteria()
 		{
 			this._Users = new EntitySet<User>(new Action<User>(this.attach_Users), new Action<User>(this.detach_Users));
-			this._Tv = default(EntityRef<Tv>);
-			this._Movies = default(EntityRef<Movies>);
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int Id
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MCID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int MCID
 		{
 			get
 			{
-				return this._Id;
+				return this._MCID;
 			}
 			set
 			{
-				if ((this._Id != value))
+				if ((this._MCID != value))
 				{
-					this.OnIdChanging(value);
+					this.OnMCIDChanging(value);
 					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Gender", DbType="Int")]
-		public System.Nullable<int> Gender
-		{
-			get
-			{
-				return this._Gender;
-			}
-			set
-			{
-				if ((this._Gender != value))
-				{
-					if (this._Tv.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnGenderChanging(value);
-					this.SendPropertyChanging();
-					this._Gender = value;
-					this.SendPropertyChanged("Gender");
-					this.OnGenderChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IntoTV", DbType="Int")]
-		public System.Nullable<int> IntoTV
-		{
-			get
-			{
-				return this._IntoTV;
-			}
-			set
-			{
-				if ((this._IntoTV != value))
-				{
-					if (this._Movies.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnIntoTVChanging(value);
-					this.SendPropertyChanging();
-					this._IntoTV = value;
-					this.SendPropertyChanged("IntoTV");
-					this.OnIntoTVChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IntoMovies", DbType="Int")]
-		public System.Nullable<int> IntoMovies
-		{
-			get
-			{
-				return this._IntoMovies;
-			}
-			set
-			{
-				if ((this._IntoMovies != value))
-				{
-					this.OnIntoMoviesChanging(value);
-					this.SendPropertyChanging();
-					this._IntoMovies = value;
-					this.SendPropertyChanged("IntoMovies");
-					this.OnIntoMoviesChanged();
+					this._MCID = value;
+					this.SendPropertyChanged("MCID");
+					this.OnMCIDChanged();
 				}
 			}
 		}
@@ -1235,7 +909,27 @@ namespace H5pro
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MatchCriteria_User", Storage="_Users", ThisKey="Id", OtherKey="MatchCriteria")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StreamingServices", DbType="Int")]
+		public System.Nullable<int> StreamingServices
+		{
+			get
+			{
+				return this._StreamingServices;
+			}
+			set
+			{
+				if ((this._StreamingServices != value))
+				{
+					this.OnStreamingServicesChanging(value);
+					this.SendPropertyChanging();
+					this._StreamingServices = value;
+					this.SendPropertyChanged("StreamingServices");
+					this.OnStreamingServicesChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MatchCriteria_User", Storage="_Users", ThisKey="MCID", OtherKey="MCID")]
 		public EntitySet<User> Users
 		{
 			get
@@ -1245,74 +939,6 @@ namespace H5pro
 			set
 			{
 				this._Users.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Tv_MatchCriteria", Storage="_Tv", ThisKey="Gender", OtherKey="Id", IsForeignKey=true)]
-		public Tv Tv
-		{
-			get
-			{
-				return this._Tv.Entity;
-			}
-			set
-			{
-				Tv previousValue = this._Tv.Entity;
-				if (((previousValue != value) 
-							|| (this._Tv.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Tv.Entity = null;
-						previousValue.MatchCriterias.Remove(this);
-					}
-					this._Tv.Entity = value;
-					if ((value != null))
-					{
-						value.MatchCriterias.Add(this);
-						this._Gender = value.Id;
-					}
-					else
-					{
-						this._Gender = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("Tv");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Movy_MatchCriteria", Storage="_Movies", ThisKey="IntoTV", OtherKey="Id", IsForeignKey=true)]
-		public Movies Movies
-		{
-			get
-			{
-				return this._Movies.Entity;
-			}
-			set
-			{
-				Movies previousValue = this._Movies.Entity;
-				if (((previousValue != value) 
-							|| (this._Movies.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Movies.Entity = null;
-						previousValue.MatchCriterias.Remove(this);
-					}
-					this._Movies.Entity = value;
-					if ((value != null))
-					{
-						value.MatchCriterias.Add(this);
-						this._IntoTV = value.Id;
-					}
-					else
-					{
-						this._IntoTV = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("Movies");
-				}
 			}
 		}
 		
@@ -1339,13 +965,13 @@ namespace H5pro
 		private void attach_Users(User entity)
 		{
 			this.SendPropertyChanging();
-			entity.MatchCriteria1 = this;
+			entity.MatchCriteria = this;
 		}
 		
 		private void detach_Users(User entity)
 		{
 			this.SendPropertyChanging();
-			entity.MatchCriteria1 = null;
+			entity.MatchCriteria = null;
 		}
 	}
 }

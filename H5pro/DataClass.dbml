@@ -2,61 +2,53 @@
   <Connection Mode="AppSettings" ConnectionString="Data Source=h5projekt.database.windows.net;Initial Catalog=H5projekt;User ID=h5pAdmin" SettingsObjectName="H5pro.Properties.Settings" SettingsPropertyName="H5projektConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Users" Member="Users">
     <Type Name="User">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Email" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
-      <Column Name="UserName" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
-      <Column Name="Password" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
-      <Column Name="Age" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Gender" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="RememberMe" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="MatchCriteria" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="StreamingService" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
-      <Association Name="User_Message" Member="Messages" ThisKey="Id" OtherKey="MessageTo" Type="Message" />
-      <Association Name="User_Message1" Member="Messages1" ThisKey="Id" OtherKey="Messagefrom" Type="Message" />
-      <Association Name="MatchCriteria_User" Member="MatchCriteria1" ThisKey="MatchCriteria" OtherKey="Id" Type="MatchCriteria" IsForeignKey="true" />
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Username" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="PasswordHash" Type="System.Data.Linq.Binary" DbType="Binary(64) NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="Salt" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="Age" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Gender" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MCID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="User_Message" Member="Messages" ThisKey="UserID" OtherKey="FromUser" Type="Message" />
+      <Association Name="User_Message1" Member="Messages1" ThisKey="UserID" OtherKey="ToUser" Type="Message" />
+      <Association Name="MatchCriteria_User" Member="MatchCriteria" ThisKey="MCID" OtherKey="MCID" Type="MatchCriteria" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Tv" Member="Tvs">
-    <Type Name="Tv">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Title" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
-      <Column Name="Genre" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
-      <Column Name="Seasons" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Description" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
-      <Association Name="Tv_MatchCriteria" Member="MatchCriterias" ThisKey="Id" OtherKey="Gender" Type="MatchCriteria" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Movies" Member="Movies">
-    <Type Name="Movies">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Title" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
-      <Column Name="Gerne" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
-      <Column Name="Length" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Descrition" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
-      <Association Name="Movy_MatchCriteria" Member="MatchCriterias" ThisKey="Id" OtherKey="IntoTV" Type="MatchCriteria" />
+  <Table Name="dbo.Shows" Member="Shows">
+    <Type Name="Show">
+      <Column Name="ShowID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Genre" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="Show_MCShowRelation" Member="MCShowRelations" ThisKey="ShowID" OtherKey="ShowID" Type="MCShowRelation" />
     </Type>
   </Table>
   <Table Name="dbo.Messages" Member="Messages">
     <Type Name="Message">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="MessageTo" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Messagefrom" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Text" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
-      <Column Name="sent" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="User_Message" Member="User" ThisKey="MessageTo" OtherKey="Id" Type="User" IsForeignKey="true" />
-      <Association Name="User_Message1" Member="User1" ThisKey="Messagefrom" OtherKey="Id" Type="User" IsForeignKey="true" />
+      <Column Name="MessageID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ToUser" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FromUser" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Sub" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="TextMessage" Type="System.String" DbType="VarChar(250) NOT NULL" CanBeNull="false" />
+      <Association Name="User_Message" Member="User" ThisKey="FromUser" OtherKey="UserID" Type="User" IsForeignKey="true" />
+      <Association Name="User_Message1" Member="User1" ThisKey="ToUser" OtherKey="UserID" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MCShowRelation" Member="MCShowRelations">
+    <Type Name="MCShowRelation">
+      <Column Name="MCID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ShowID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Show_MCShowRelation" Member="Show" ThisKey="ShowID" OtherKey="ShowID" Type="Show" IsForeignKey="true" />
+      <Association Name="MatchCriteria_MCShowRelation" Member="MatchCriteria" ThisKey="MCID" OtherKey="MCID" Type="MatchCriteria" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.MatchCriteria" Member="MatchCriterias">
     <Type Name="MatchCriteria">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Gender" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="IntoTV" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="IntoMovies" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MCID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Commitment" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="MatchCriteria_User" Member="Users" ThisKey="Id" OtherKey="MatchCriteria" Type="User" />
-      <Association Name="Tv_MatchCriteria" Member="Tv" ThisKey="Gender" OtherKey="Id" Type="Tv" IsForeignKey="true" />
-      <Association Name="Movy_MatchCriteria" Member="Movies" ThisKey="IntoTV" OtherKey="Id" Type="Movies" IsForeignKey="true" />
+      <Column Name="StreamingServices" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="MatchCriteria_User" Member="Users" ThisKey="MCID" OtherKey="MCID" Type="User" />
+      <Association Name="MatchCriteria_MCShowRelation" Member="MCShowRelations" ThisKey="MCID" OtherKey="MCID" Type="MCShowRelation" />
     </Type>
   </Table>
 </Database>

@@ -22,11 +22,11 @@ namespace H5pro.Controllers
             {
                 using (DataClassDataContext db = new DataClassDataContext())
                 {
-                    var obj = db.Users.Where(a => a.UserName.Equals(objUser.UserName) && a.Password.Equals(objUser.Password)).FirstOrDefault();
+                    var obj = db.Users.Where(a => a.Username.Equals(objUser.Username) && a.PasswordHash.Equals(objUser.PasswordHash)).FirstOrDefault();
                     if (obj != null)
                     {
-                        Session["UserID"] = obj.Id.ToString();
-                        Session["UserName"] = obj.UserName.ToString();
+                        Session["UserID"] = obj.UserID.ToString();
+                        Session["UserName"] = obj.Username.ToString();
                         return RedirectToAction("Profil","User");
                     }
                 }
@@ -38,7 +38,7 @@ namespace H5pro.Controllers
         {
             FormsAuthentication.SignOut();
             Session.Abandon(); // it will clear the session at the end of request
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Start", "Start");
         }
     }
 }
