@@ -6,9 +6,10 @@ using System.Web.Mvc;
 
 namespace H5pro.Controllers
 {
-    public class HomeController : Controller
+    public class UserController : Controller
     {
-        public ActionResult Index()
+        // GET: User
+        public ActionResult Profil()
         {
             if (Session["UserID"] != null)
             {
@@ -16,7 +17,7 @@ namespace H5pro.Controllers
             }
             else
             {
-                return RedirectToAction("Login", "Login");
+                return RedirectToAction("Start", "Start");
             }
         }
     }

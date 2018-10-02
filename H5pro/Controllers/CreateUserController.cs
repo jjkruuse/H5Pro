@@ -10,12 +10,12 @@ namespace H5pro.Controllers
     {
         // GET: 
         
-        public ActionResult Index()
+        public ActionResult CreateUser()
         {
             return View();
         }
         [HttpPost]
-        public ActionResult index(User user)
+        public ActionResult CreateUser(User user)
         {
             if(ModelState.IsValid)
             {

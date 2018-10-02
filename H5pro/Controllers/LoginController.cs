@@ -27,23 +27,11 @@ namespace H5pro.Controllers
                     {
                         Session["UserID"] = obj.Id.ToString();
                         Session["UserName"] = obj.UserName.ToString();
-                        return RedirectToAction("UserProfil");
+                        return RedirectToAction("Profil");
                     }
                 }
             }
             return View(objUser);
-        }
-
-        public ActionResult UserProfil()
-        {
-            if (Session["UserID"] != null)
-            {
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("Login", "Login");
-            }
         }
 
         public ActionResult LogOut()
