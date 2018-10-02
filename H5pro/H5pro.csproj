@@ -151,6 +151,10 @@
     <Compile Include="Controllers\CreateUserController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\MessagesController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
+    <Compile Include="Controllers\StartController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DataClass.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -214,15 +218,19 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\CreateUser\Index.cshtml" />
+    <Content Include="Views\CreateUser\CreateUser.cshtml" />
+    <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\Start\Start.cshtml" />
+    <Content Include="Views\User\Profil.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\User\Movies.cshtml" />
+    <Content Include="Views\Messages\Messages.cshtml" />
+    <Content Include="Views\Search\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Login\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

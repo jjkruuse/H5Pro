@@ -16,13 +16,22 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Datflix", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    @if (Session["UserName"] != null)
+                    {
+                        <text>@Session["UserName"].ToString() </text>
+                        <li class="nav-item"><a href="Login/logOut" id="logOutLink" class="nav-link">Log out</a></li>
+
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Create user", "CreateUser", "CreateUser")</li>
+                        <li>@Html.ActionLink("Login", "Login", "Login")</li>
+                    }
                 </ul>
             </div>
         </div>
@@ -31,7 +40,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - Datflix</p>
         </footer>
     </div>
 

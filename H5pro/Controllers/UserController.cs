@@ -6,9 +6,10 @@ using System.Web.Mvc;
 
 namespace H5pro.Controllers
 {
-    public class HomeController : Controller
+    public class UserController : Controller
     {
-        public ActionResult Index()
+        // GET: User
+        public ActionResult Profil()
         {
             if (Session["UserID"] != null)
             {
@@ -18,6 +19,16 @@ namespace H5pro.Controllers
             {
                 return RedirectToAction("Start", "Start");
             }
+        }
+
+        public ActionResult Edit()
+        {
+            return View();
+        }
+
+        public ActionResult Movies()
+        {
+            return View();
         }
     }
 }
