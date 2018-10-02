@@ -27,7 +27,7 @@ namespace H5pro.Controllers
                     {
                         Session["UserID"] = obj.Id.ToString();
                         Session["UserName"] = obj.UserName.ToString();
-                        return RedirectToAction("Profil");
+                        return RedirectToAction("Profil","User");
                     }
                 }
             }

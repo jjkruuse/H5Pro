@@ -16,7 +16,7 @@ namespace H5pro.Controllers
             }
             else
             {
-                return RedirectToAction("Login", "Login");
+                return RedirectToAction("Start", "Start");
             }
         }
     }

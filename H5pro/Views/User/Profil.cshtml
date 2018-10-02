@@ -9,5 +9,11 @@
     @if (Session["UserName"] != null)
     {
         <text> Welcome @Session["UserName"].ToString() </text>
+
+        <li>@Html.ActionLink("Edit user Profil", "Edit", "User")</li>
+        <li>@Html.ActionLink("Edit favorit movies", "Movies", "User")</li>
+        <li>@Html.ActionLink("Edit favorit tv shows", "TV", "User")</li>
+        <li>@Html.ActionLink("Messages", "Messages", "Messages")</li>
+        <li>@Html.ActionLink("Search for other profils", "Search", "Search")</li>
     }
 </fieldset>

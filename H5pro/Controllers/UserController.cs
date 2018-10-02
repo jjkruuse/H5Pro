@@ -20,5 +20,15 @@ namespace H5pro.Controllers
                 return RedirectToAction("Start", "Start");
             }
         }
+
+        public ActionResult Edit()
+        {
+            return View();
+        }
+
+        public ActionResult Movies()
+        {
+            return View();
+        }
     }
 }

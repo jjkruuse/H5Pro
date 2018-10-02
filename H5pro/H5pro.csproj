@@ -151,6 +151,8 @@
     <Compile Include="Controllers\CreateUserController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\MessagesController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\StartController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DataClass.designer.cs">
@@ -221,6 +223,10 @@
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Start\Start.cshtml" />
     <Content Include="Views\User\Profil.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\User\Movies.cshtml" />
+    <Content Include="Views\Messages\Messages.cshtml" />
+    <Content Include="Views\Search\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
