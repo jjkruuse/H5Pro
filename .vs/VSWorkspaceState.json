@@ -1,8 +1,14 @@
 {
   "ExpandedNodes": [
     "",
-    "\\H5pro"
+    "\\H5pro",
+    "\\H5pro\\Controllers",
+    "\\H5pro\\Properties",
+    "\\H5pro\\Views",
+    "\\H5pro\\Views\\CreateUser",
+    "\\H5pro\\Views\\Login",
+    "\\H5pro\\Views\\Shared"
   ],
-  "SelectedNode": "\\H5pro.sln",
+  "SelectedNode": "\\H5pro\\Views\\Shared\\_Layout.cshtml",
   "PreviewInSolutionExplorer": false
 }
