@@ -226,6 +226,7 @@
     <Content Include="Views\CreateUser\CreateUser.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\User\Show.cshtml" />
+    <Content Include="Views\User\Createshow.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

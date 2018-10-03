@@ -34,16 +34,18 @@ namespace H5pro.Controllers
 
             return View(show);
         }
-        [HttpPost]
-        public ActionResult Show(Show show)
+        public ActionResult Createshow()
         {
-            
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Createshow(Show show)
+        {
             if (ModelState.IsValid)
             {
                 DataClassDataContext db = new DataClassDataContext();
                 db.Shows.InsertOnSubmit(show);
                 db.Shows.Context.SubmitChanges();
-
                 return View();
             }
             return View();
