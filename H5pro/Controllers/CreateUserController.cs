@@ -21,7 +21,8 @@ namespace H5pro.Controllers
             {
                 DataClassDataContext db = new DataClassDataContext();
                 db.Users.InsertOnSubmit(user);
-                db.Users.Context.SubmitChanges();                
+                db.Users.Context.SubmitChanges();
+                return RedirectToAction("Start", "Start");
             }
             return View();
         }
