@@ -26,8 +26,26 @@ namespace H5pro.Controllers
             return View();
         }
 
-        public ActionResult Movies()
+        public ActionResult Show()
         {
+            DataClassDataContext db = new DataClassDataContext();
+            List<Show> show = db.Shows.ToList();
+
+
+            return View(show);
+        }
+        [HttpPost]
+        public ActionResult Show(Show show)
+        {
+            
+            if (ModelState.IsValid)
+            {
+                DataClassDataContext db = new DataClassDataContext();
+                db.Shows.InsertOnSubmit(show);
+                db.Shows.Context.SubmitChanges();
+
+                return View();
+            }
             return View();
         }
     }
