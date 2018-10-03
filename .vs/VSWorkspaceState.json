@@ -9,6 +9,6 @@
     "\\H5pro\\Views\\Login",
     "\\H5pro\\Views\\Shared"
   ],
-  "SelectedNode": "\\H5pro\\Views\\Shared\\_Layout.cshtml",
+  "SelectedNode": "\\H5pro\\Controllers\\CreateUserController.cs",
   "PreviewInSolutionExplorer": false
 }
