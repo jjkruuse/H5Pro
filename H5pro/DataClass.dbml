@@ -6,7 +6,7 @@
       <Column Name="Username" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="Email" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="PasswordHash" Type="System.String" DbType="VarChar(250)" CanBeNull="true" />
-      <Column Name="Salt" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="Salt" Type="System.String" DbType="VarChar(1)" CanBeNull="true" />
       <Column Name="Age" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Gender" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="MCID" Type="System.Int32" DbType="Int" CanBeNull="true" />
@@ -15,13 +15,12 @@
       <Association Name="MatchCriteria_User" Member="MatchCriteria" ThisKey="MCID" OtherKey="MCID" Type="MatchCriteria" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.MatchCriteria" Member="MatchCriterias">
-    <Type Name="MatchCriteria">
-      <Column Name="MCID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Commitment" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="StreamingServices" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="MatchCriteria_User" Member="Users" ThisKey="MCID" OtherKey="MCID" Type="User" />
-      <Association Name="MatchCriteria_MCShowRelation" Member="MCShowRelations" ThisKey="MCID" OtherKey="MCID" Type="MCShowRelation" />
+  <Table Name="dbo.Shows" Member="Shows">
+    <Type Name="Show">
+      <Column Name="ShowID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Genre" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="Show_MCShowRelation" Member="MCShowRelations" ThisKey="ShowID" OtherKey="ShowID" Type="MCShowRelation" />
     </Type>
   </Table>
   <Table Name="dbo.Messages" Member="Messages">
@@ -35,20 +34,21 @@
       <Association Name="User_Message1" Member="User1" ThisKey="ToUser" OtherKey="UserID" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Shows" Member="Shows">
-    <Type Name="Show">
-      <Column Name="ShowID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Title" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Genre" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Association Name="Show_MCShowRelation" Member="MCShowRelations" ThisKey="ShowID" OtherKey="ShowID" Type="MCShowRelation" />
-    </Type>
-  </Table>
   <Table Name="dbo.MCShowRelation" Member="MCShowRelations">
     <Type Name="MCShowRelation">
       <Column Name="MCID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ShowID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Show_MCShowRelation" Member="Show" ThisKey="ShowID" OtherKey="ShowID" Type="Show" IsForeignKey="true" />
       <Association Name="MatchCriteria_MCShowRelation" Member="MatchCriteria" ThisKey="MCID" OtherKey="MCID" Type="MatchCriteria" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MatchCriteria" Member="MatchCriterias">
+    <Type Name="MatchCriteria">
+      <Column Name="MCID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Commitment" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="StreamingServices" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="MatchCriteria_User" Member="Users" ThisKey="MCID" OtherKey="MCID" Type="User" />
+      <Association Name="MatchCriteria_MCShowRelation" Member="MCShowRelations" ThisKey="MCID" OtherKey="MCID" Type="MCShowRelation" />
     </Type>
   </Table>
 </Database>

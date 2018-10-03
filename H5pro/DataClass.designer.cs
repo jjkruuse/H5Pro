@@ -33,15 +33,15 @@ namespace H5pro
     partial void InsertUser(User instance);
     partial void UpdateUser(User instance);
     partial void DeleteUser(User instance);
-    partial void InsertMatchCriteria(MatchCriteria instance);
-    partial void UpdateMatchCriteria(MatchCriteria instance);
-    partial void DeleteMatchCriteria(MatchCriteria instance);
-    partial void InsertMessage(Message instance);
-    partial void UpdateMessage(Message instance);
-    partial void DeleteMessage(Message instance);
     partial void InsertShow(Show instance);
     partial void UpdateShow(Show instance);
     partial void DeleteShow(Show instance);
+    partial void InsertMessage(Message instance);
+    partial void UpdateMessage(Message instance);
+    partial void DeleteMessage(Message instance);
+    partial void InsertMatchCriteria(MatchCriteria instance);
+    partial void UpdateMatchCriteria(MatchCriteria instance);
+    partial void DeleteMatchCriteria(MatchCriteria instance);
     #endregion
 		
 		public DataClassDataContext() : 
@@ -82,11 +82,11 @@ namespace H5pro
 			}
 		}
 		
-		public System.Data.Linq.Table<MatchCriteria> MatchCriterias
+		public System.Data.Linq.Table<Show> Shows
 		{
 			get
 			{
-				return this.GetTable<MatchCriteria>();
+				return this.GetTable<Show>();
 			}
 		}
 		
@@ -98,19 +98,19 @@ namespace H5pro
 			}
 		}
 		
-		public System.Data.Linq.Table<Show> Shows
-		{
-			get
-			{
-				return this.GetTable<Show>();
-			}
-		}
-		
 		public System.Data.Linq.Table<MCShowRelation> MCShowRelations
 		{
 			get
 			{
 				return this.GetTable<MCShowRelation>();
+			}
+		}
+		
+		public System.Data.Linq.Table<MatchCriteria> MatchCriterias
+		{
+			get
+			{
+				return this.GetTable<MatchCriteria>();
 			}
 		}
 	}
@@ -129,7 +129,7 @@ namespace H5pro
 		
 		private string _PasswordHash;
 		
-		private System.Nullable<System.Guid> _Salt;
+		private string _Salt;
 		
 		private int _Age;
 		
@@ -155,7 +155,7 @@ namespace H5pro
     partial void OnEmailChanged();
     partial void OnPasswordHashChanging(string value);
     partial void OnPasswordHashChanged();
-    partial void OnSaltChanging(System.Nullable<System.Guid> value);
+    partial void OnSaltChanging(string value);
     partial void OnSaltChanged();
     partial void OnAgeChanging(int value);
     partial void OnAgeChanged();
@@ -253,8 +253,8 @@ namespace H5pro
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Salt", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> Salt
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Salt", DbType="VarChar(1)")]
+		public string Salt
 		{
 			get
 			{
@@ -442,108 +442,92 @@ namespace H5pro
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MatchCriteria")]
-	public partial class MatchCriteria : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Shows")]
+	public partial class Show : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _MCID;
+		private int _ShowID;
 		
-		private System.Nullable<int> _Commitment;
+		private string _Title;
 		
-		private System.Nullable<int> _StreamingServices;
-		
-		private EntitySet<User> _Users;
+		private string _Genre;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnMCIDChanging(int value);
-    partial void OnMCIDChanged();
-    partial void OnCommitmentChanging(System.Nullable<int> value);
-    partial void OnCommitmentChanged();
-    partial void OnStreamingServicesChanging(System.Nullable<int> value);
-    partial void OnStreamingServicesChanged();
+    partial void OnShowIDChanging(int value);
+    partial void OnShowIDChanged();
+    partial void OnTitleChanging(string value);
+    partial void OnTitleChanged();
+    partial void OnGenreChanging(string value);
+    partial void OnGenreChanged();
     #endregion
 		
-		public MatchCriteria()
+		public Show()
 		{
-			this._Users = new EntitySet<User>(new Action<User>(this.attach_Users), new Action<User>(this.detach_Users));
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MCID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int MCID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ShowID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ShowID
 		{
 			get
 			{
-				return this._MCID;
+				return this._ShowID;
 			}
 			set
 			{
-				if ((this._MCID != value))
+				if ((this._ShowID != value))
 				{
-					this.OnMCIDChanging(value);
+					this.OnShowIDChanging(value);
 					this.SendPropertyChanging();
-					this._MCID = value;
-					this.SendPropertyChanged("MCID");
-					this.OnMCIDChanged();
+					this._ShowID = value;
+					this.SendPropertyChanged("ShowID");
+					this.OnShowIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Commitment", DbType="Int")]
-		public System.Nullable<int> Commitment
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Title", DbType="NVarChar(50)")]
+		public string Title
 		{
 			get
 			{
-				return this._Commitment;
+				return this._Title;
 			}
 			set
 			{
-				if ((this._Commitment != value))
+				if ((this._Title != value))
 				{
-					this.OnCommitmentChanging(value);
+					this.OnTitleChanging(value);
 					this.SendPropertyChanging();
-					this._Commitment = value;
-					this.SendPropertyChanged("Commitment");
-					this.OnCommitmentChanged();
+					this._Title = value;
+					this.SendPropertyChanged("Title");
+					this.OnTitleChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StreamingServices", DbType="Int")]
-		public System.Nullable<int> StreamingServices
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Genre", DbType="NVarChar(50)")]
+		public string Genre
 		{
 			get
 			{
-				return this._StreamingServices;
+				return this._Genre;
 			}
 			set
 			{
-				if ((this._StreamingServices != value))
+				if ((this._Genre != value))
 				{
-					this.OnStreamingServicesChanging(value);
+					this.OnGenreChanging(value);
 					this.SendPropertyChanging();
-					this._StreamingServices = value;
-					this.SendPropertyChanged("StreamingServices");
-					this.OnStreamingServicesChanged();
+					this._Genre = value;
+					this.SendPropertyChanged("Genre");
+					this.OnGenreChanged();
 				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MatchCriteria_User", Storage="_Users", ThisKey="MCID", OtherKey="MCID")]
-		public EntitySet<User> Users
-		{
-			get
-			{
-				return this._Users;
-			}
-			set
-			{
-				this._Users.Assign(value);
 			}
 		}
 		
@@ -565,18 +549,6 @@ namespace H5pro
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-		
-		private void attach_Users(User entity)
-		{
-			this.SendPropertyChanging();
-			entity.MatchCriteria = this;
-		}
-		
-		private void detach_Users(User entity)
-		{
-			this.SendPropertyChanging();
-			entity.MatchCriteria = null;
 		}
 	}
 	
@@ -820,116 +792,6 @@ namespace H5pro
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Shows")]
-	public partial class Show : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _ShowID;
-		
-		private string _Title;
-		
-		private string _Genre;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnShowIDChanging(int value);
-    partial void OnShowIDChanged();
-    partial void OnTitleChanging(string value);
-    partial void OnTitleChanged();
-    partial void OnGenreChanging(string value);
-    partial void OnGenreChanged();
-    #endregion
-		
-		public Show()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ShowID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int ShowID
-		{
-			get
-			{
-				return this._ShowID;
-			}
-			set
-			{
-				if ((this._ShowID != value))
-				{
-					this.OnShowIDChanging(value);
-					this.SendPropertyChanging();
-					this._ShowID = value;
-					this.SendPropertyChanged("ShowID");
-					this.OnShowIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Title", DbType="NVarChar(50)")]
-		public string Title
-		{
-			get
-			{
-				return this._Title;
-			}
-			set
-			{
-				if ((this._Title != value))
-				{
-					this.OnTitleChanging(value);
-					this.SendPropertyChanging();
-					this._Title = value;
-					this.SendPropertyChanged("Title");
-					this.OnTitleChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Genre", DbType="NVarChar(50)")]
-		public string Genre
-		{
-			get
-			{
-				return this._Genre;
-			}
-			set
-			{
-				if ((this._Genre != value))
-				{
-					this.OnGenreChanging(value);
-					this.SendPropertyChanging();
-					this._Genre = value;
-					this.SendPropertyChanged("Genre");
-					this.OnGenreChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MCShowRelation")]
 	public partial class MCShowRelation
 	{
@@ -972,6 +834,144 @@ namespace H5pro
 					this._ShowID = value;
 				}
 			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MatchCriteria")]
+	public partial class MatchCriteria : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _MCID;
+		
+		private System.Nullable<int> _Commitment;
+		
+		private System.Nullable<int> _StreamingServices;
+		
+		private EntitySet<User> _Users;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnMCIDChanging(int value);
+    partial void OnMCIDChanged();
+    partial void OnCommitmentChanging(System.Nullable<int> value);
+    partial void OnCommitmentChanged();
+    partial void OnStreamingServicesChanging(System.Nullable<int> value);
+    partial void OnStreamingServicesChanged();
+    #endregion
+		
+		public MatchCriteria()
+		{
+			this._Users = new EntitySet<User>(new Action<User>(this.attach_Users), new Action<User>(this.detach_Users));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MCID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int MCID
+		{
+			get
+			{
+				return this._MCID;
+			}
+			set
+			{
+				if ((this._MCID != value))
+				{
+					this.OnMCIDChanging(value);
+					this.SendPropertyChanging();
+					this._MCID = value;
+					this.SendPropertyChanged("MCID");
+					this.OnMCIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Commitment", DbType="Int")]
+		public System.Nullable<int> Commitment
+		{
+			get
+			{
+				return this._Commitment;
+			}
+			set
+			{
+				if ((this._Commitment != value))
+				{
+					this.OnCommitmentChanging(value);
+					this.SendPropertyChanging();
+					this._Commitment = value;
+					this.SendPropertyChanged("Commitment");
+					this.OnCommitmentChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StreamingServices", DbType="Int")]
+		public System.Nullable<int> StreamingServices
+		{
+			get
+			{
+				return this._StreamingServices;
+			}
+			set
+			{
+				if ((this._StreamingServices != value))
+				{
+					this.OnStreamingServicesChanging(value);
+					this.SendPropertyChanging();
+					this._StreamingServices = value;
+					this.SendPropertyChanged("StreamingServices");
+					this.OnStreamingServicesChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MatchCriteria_User", Storage="_Users", ThisKey="MCID", OtherKey="MCID")]
+		public EntitySet<User> Users
+		{
+			get
+			{
+				return this._Users;
+			}
+			set
+			{
+				this._Users.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Users(User entity)
+		{
+			this.SendPropertyChanging();
+			entity.MatchCriteria = this;
+		}
+		
+		private void detach_Users(User entity)
+		{
+			this.SendPropertyChanging();
+			entity.MatchCriteria = null;
 		}
 	}
 }
