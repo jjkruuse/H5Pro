@@ -15,10 +15,9 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.ToUser, "Send to", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Send to", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ToUser, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ToUser, "", new { @class = "text-danger" })
+                @Html.Editor("SendTo", new { htmlAttributes = new { @class = "form-control" } })
             </div>
         </div>
         
