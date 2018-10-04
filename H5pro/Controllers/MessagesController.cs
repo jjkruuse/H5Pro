@@ -8,7 +8,6 @@ namespace H5pro.Controllers
 {
     public class MessagesController : Controller
     {
-
         DataClassDataContext db = new DataClassDataContext();
 
         // GET: Messages
@@ -30,30 +29,26 @@ namespace H5pro.Controllers
         [HttpPost]
         public ActionResult NewMessage(Message message)
         {
-            if(ModelState.IsValid)
+
+            var obj = db.Users.Where(a => a.Username.Equals(Request["SendTo"])).FirstOrDefault();
+            if (obj != null)
             {
-                db.Messages.InsertOnSubmit(message);
-                db.Messages.Context.SubmitChanges();
+                message.ToUser = obj.UserID;
+                int sender = int.Parse(Session["UserID"].ToString());
+                message.FromUser = sender;
+                if (ModelState.IsValid)
+                {
+                    db.Messages.InsertOnSubmit(message);
+                    db.Messages.Context.SubmitChanges();
 
-                return View();
+                    return View();
+                }
             }
-            return View();
-        }
-
-        public ActionResult Reply()
-        {
-            return View();
-        }
-        [HttpPost]
-        public ActionResult Reply(Message message)
-        {
-            if (ModelState.IsValid)
-            { 
-
-                db.Messages.InsertOnSubmit(message);
-                db.Messages.Context.SubmitChanges();
-                return View();
+            else
+            {
+                // Insert code to tell that there is no such user.
             }
+
             return View();
         }
     }
