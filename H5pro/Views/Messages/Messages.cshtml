@@ -29,8 +29,7 @@
                 </thead>
 
                 @foreach (var m in Model)
-                {
-                    <tr class=>
+                {  
                         <td>
                             <div class="text">@m.Sub</div>
                         </td>
@@ -38,7 +37,7 @@
                             <div class="text">@m.FromUser</div>
                         </td>
                         <td>
-                            @Html.ActionLink("View Reply", "Index", new { Id = m.MessageID })
+                            @Html.ActionLink("View Reply", "Reply", new { Id = m.MessageID })
                         </td>
                         <td>
                             <div class="text edit">
@@ -46,7 +45,6 @@
                             </div>
                         </td>
                         <td><input type="hidden" id="MessageID" name="MessageID" value="@m.MessageID"></td>
-                    </tr>
                 }
             </table>
         </div>

@@ -8,6 +8,7 @@ namespace H5pro.Controllers
 {
     public class MessagesController : Controller
     {
+
         DataClassDataContext db = new DataClassDataContext();
 
         // GET: Messages
@@ -31,11 +32,26 @@ namespace H5pro.Controllers
         {
             if(ModelState.IsValid)
             {
-               
-
                 db.Messages.InsertOnSubmit(message);
                 db.Messages.Context.SubmitChanges();
 
+                return View();
+            }
+            return View();
+        }
+
+        public ActionResult Reply()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Reply(Message message)
+        {
+            if (ModelState.IsValid)
+            { 
+
+                db.Messages.InsertOnSubmit(message);
+                db.Messages.Context.SubmitChanges();
                 return View();
             }
             return View();
