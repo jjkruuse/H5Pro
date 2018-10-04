@@ -51,5 +51,30 @@ namespace H5pro.Controllers
 
             return View();
         }
+
+        public ActionResult Reply()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Reply()
+        {
+            var obj = db.Users.Where(a => a.Username.Equals(Request["SendTo"])).FirstOrDefault();
+            if (obj != null)
+            {
+                message.ToUser = obj.UserID;
+                int sender = int.Parse(Session["UserID"].ToString());
+                message.FromUser = sender;
+                if (ModelState.IsValid)
+                {
+                    db.Messages.InsertOnSubmit(message);
+                    db.Messages.Context.SubmitChanges();
+
+                    return View();
+                }
+            }
+            return View();
+        }
     }
 }
