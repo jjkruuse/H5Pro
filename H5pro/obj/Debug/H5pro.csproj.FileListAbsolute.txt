@@ -275,3 +275,7 @@ C:\Users\jacob\source\repos\H5Pro\H5pro\bin\PagedList.dll
 C:\Users\jacob\source\repos\H5Pro\H5pro\bin\PagedList.Mvc.dll
 C:\Users\jacob\source\repos\H5Pro\H5pro\bin\PagedList.xml
 C:\Users\jacob\source\repos\H5Pro\H5pro\bin\PagedList.Mvc.xml
+C:\Users\MonsterBoss\source\repos\jjkruuse\H5pro\H5pro\bin\PagedList.dll
+C:\Users\MonsterBoss\source\repos\jjkruuse\H5pro\H5pro\bin\PagedList.Mvc.dll
+C:\Users\MonsterBoss\source\repos\jjkruuse\H5pro\H5pro\bin\PagedList.xml
+C:\Users\MonsterBoss\source\repos\jjkruuse\H5pro\H5pro\bin\PagedList.Mvc.xml

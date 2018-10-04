@@ -29,15 +29,26 @@ namespace H5pro.Controllers
         [HttpPost]
         public ActionResult NewMessage(Message message)
         {
-            if(ModelState.IsValid)
+
+            var obj = db.Users.Where(a => a.Username.Equals(Request["SendTo"])).FirstOrDefault();
+            if (obj != null)
             {
-               
+                message.ToUser = obj.UserID;
+                int sender = int.Parse(Session["UserID"].ToString());
+                message.FromUser = sender;
+                if (ModelState.IsValid)
+                {
+                    db.Messages.InsertOnSubmit(message);
+                    db.Messages.Context.SubmitChanges();
 
-                db.Messages.InsertOnSubmit(message);
-                db.Messages.Context.SubmitChanges();
-
-                return View();
+                    return View();
+                }
             }
+            else
+            {
+                // Insert code to tell that there is no such user.
+            }
+
             return View();
         }
     }
