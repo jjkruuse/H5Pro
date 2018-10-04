@@ -1,7 +1,54 @@
-﻿
+﻿@model IEnumerable<H5pro.Message>
+
+@using PagedList;
+@using PagedList.Mvc;
+
+
+
+
 @{
     ViewBag.Title = "Messages";
 }
 
 <h2>Messages</h2>
+<div class="form-group">
+    @Html.ActionLink("Create new message", "NewMessage")
+    @using (Html.BeginForm("DeleteMessage", "Message", FormMethod.Post, new { @id = "form-message-delete", @class = "form-horizontal container" }))
+    {
+        <div class="col-sm-12">
 
+            <!-- table  -->
+            <table id="table-message-reply" class="table table-condensed table-striped table-message-reply">
+                <thead>
+                    <tr>
+                        <th class="tbl-subject">Subject</th>
+                        <th class="tbl-from">From</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                @foreach (var m in Model)
+                {
+                    <tr class=>
+                        <td>
+                            <div class="text">@m.Sub</div>
+                        </td>
+                        <td>
+                            <div class="text">@m.FromUser</div>
+                        </td>
+                        <td>
+                            @Html.ActionLink("View Reply", "Index", new { Id = m.MessageID })
+                        </td>
+                        <td>
+                            <div class="text edit">
+                                <a class="delete" href="#" title="delete" onclick="messageDelete(@m.MessageID)"><img style="width: 17px; height: 15px" src="~/Images/no.png" /></a>
+                            </div>
+                        </td>
+                        <td><input type="hidden" id="MessageID" name="MessageID" value="@m.MessageID"></td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+</div> 
