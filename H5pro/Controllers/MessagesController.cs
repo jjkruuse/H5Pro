@@ -68,10 +68,22 @@ namespace H5pro.Controllers
             return View();
         }
 
-        public ActionResult NewMessage()
+        public ActionResult NewMessage(int? id, string From, string Sub)
         {
+            MessageHandler message = new MessageHandler();
+            if (id != null)
+            {
+                message.Sub = "RE: " + Sub;
+                message.FromName = From;
+                ViewData["Replying"] = message;
+                return View();
+            }
+            message.Sub = "";
+            message.FromName = "";
+            ViewData["Replying"] = message;
             return View();
         }
+
 
         [HttpPost]
         public ActionResult NewMessage(Message message)
@@ -96,31 +108,6 @@ namespace H5pro.Controllers
                 // Insert code to tell that there is no such user.
             }
 
-            return View();
-        }
-
-        public ActionResult Reply()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Reply()
-        {
-            var obj = db.Users.Where(a => a.Username.Equals(Request["SendTo"])).FirstOrDefault();
-            if (obj != null)
-            {
-                message.ToUser = obj.UserID;
-                int sender = int.Parse(Session["UserID"].ToString());
-                message.FromUser = sender;
-                if (ModelState.IsValid)
-                {
-                    db.Messages.InsertOnSubmit(message);
-                    db.Messages.Context.SubmitChanges();
-
-                    return View();
-                }
-            }
             return View();
         }
     }
