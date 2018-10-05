@@ -39,13 +39,16 @@
         </div>
 
         <div class="form-group">
-            @Html.DropDownListFor( Model => Model.Age, new SelectListItem[]
-       {
-           new SelectListItem() {Text = "Select gender"},
-           new SelectListItem() {Text = "Male", Value = "0"},
-           new SelectListItem() {Text = "Female", Value = "1"},
-           new SelectListItem() {Text = "Other", Value = "2"}
-       })
+            <div class="col-md-10">
+                @Html.DropDownListFor( Model => Model.Age, new SelectListItem[]
+           {
+               new SelectListItem() {Text = "Select gender"},
+               new SelectListItem() {Text = "Male", Value = "0"},
+               new SelectListItem() {Text = "Female", Value = "1"},
+               new SelectListItem() {Text = "Other", Value = "2"}
+           },
+               new { @class = "form-control" })
+            </div>
         </div>
 
         <div class="form-group">

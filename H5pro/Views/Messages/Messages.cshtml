@@ -1,4 +1,4 @@
-﻿@model IEnumerable<H5pro.Message>
+﻿@model List<H5pro.Models.MessageHandler>
 
 @using PagedList;
 @using PagedList.Mvc;
@@ -30,15 +30,15 @@
 
                 @foreach (var m in Model)
                 {
-                    <tr class=>
+                    <tr>
                         <td>
                             <div class="text">@m.Sub</div>
                         </td>
                         <td>
-                            <div class="text">@m.FromUser</div>
+                            <div class="text">@m.FromName</div>
                         </td>
                         <td>
-                            @Html.ActionLink("View Reply", "Index", new { Id = m.MessageID })
+                            @Html.ActionLink("View", "ReadMessage", new { id = m.MessageID })
                         </td>
                         <td>
                             <div class="text edit">

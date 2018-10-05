@@ -8,35 +8,31 @@
 
 @using (Html.BeginForm("Login", "login", FormMethod.Post))
 {
-    <fieldset>
-        <legend>Login</legend>
 
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
-        @if (@ViewBag.Message != null)
+        @*@if (@ViewBag.Message != null)
         {
             <div style="border: 1px solid red">
                 @ViewBag.Message
             </div>
-        }
-        <table>
-            <tr>
-                <td>@Html.LabelFor(a => a.Username)</td>
-                <td>@Html.TextBoxFor(a => a.Username)</td>
-                <td>@Html.ValidationMessageFor(a => a.Username)</td>
-            </tr>
-            <tr>
-                <td>@Html.LabelFor(a => a.PasswordHash)</td>
-                <td>@Html.PasswordFor(a => a.PasswordHash)</td>
-                <td>@Html.ValidationMessageFor(a => a.PasswordHash)</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>
-                    <input type="submit" value="Login" />
-                </td>
-                <td></td>
-            </tr>
-        </table>
-    </fieldset>
-}  
+        }*@
+<div class="jumbotron">
+    <div class="form-group">
+        @Html.LabelFor(a => a.Username, "Username: ", new { htmlAttributes = new { @class = "control-label col-md-2" } })
+        @Html.TextBoxFor(a => a.Username, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.Username)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(a => a.PasswordHash, "Password: ", new { htmlAttributes = new { @class = "control-label col-md-2" } })
+        @Html.PasswordFor(a => a.PasswordHash, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.PasswordHash)
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Login" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+    <br />
+}

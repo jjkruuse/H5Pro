@@ -1,4 +1,5 @@
-﻿using System;
+﻿using H5pro.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -14,12 +15,58 @@ namespace H5pro.Controllers
         public ActionResult Messages()
         {
             List<Message> messages = db.Messages.ToList();
+            int len = messages.Count;
+            List<MessageHandler> messageHandlers = new List<MessageHandler>();
+            for (int i = 0; i < len; i++)
+            {
+                Console.Out.WriteLine(i + " " + messages[i].MessageID.ToString());
 
-            return View(messages);
+                MessageHandler mh = new MessageHandler();
+                
+                mh.MessageID = messages[i].MessageID;
+                mh.FromUser = messages[i].FromUser;
+                mh.Sub = messages[i].Sub;
+                mh.TextMessage = messages[i].TextMessage;
+                mh.ToUser = messages[i].ToUser;
+
+                int FromID = messages[i].FromUser;
+                var obj = db.Users.Where(a => a.UserID.Equals(FromID)).FirstOrDefault();
+
+                mh.FromName = obj.Username;
+
+                messageHandlers.Add(mh);
+            }
+            return View(messageHandlers);
         }
 
+        public ActionResult ReadMessage(int Id)
+        {
+            MessageHandler mh = new MessageHandler();
+            int userID;
+            
+            if (int.TryParse(Session["UserID"].ToString(), out userID))
+            {
+                Message message = db.Messages.Where(m => m.MessageID.Equals(userID)).FirstOrDefault();
+                if (message != null)
+                {
+                    if ((message.FromUser.Equals(userID)) || message.ToUser.Equals(userID))
+                    {
+                        mh.FromUser = message.FromUser;
+                        mh.Sub = message.Sub;
+                        mh.TextMessage = message.TextMessage;
+                        mh.ToUser = message.ToUser;
 
+                        int FromID = message.FromUser;
+                        var obj = db.Users.Where(a => a.UserID.Equals(FromID)).FirstOrDefault();
 
+                        mh.FromName = obj.Username;
+                        return View(mh);
+                    }
+                }
+            }
+
+            return View();
+        }
 
         public ActionResult NewMessage()
         {
