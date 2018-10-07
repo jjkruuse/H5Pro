@@ -1,0 +1,58 @@
+﻿@model IEnumerable<H5pro.Models.ResultHandler>
+
+@{
+    ViewBag.Title = "SearchResult";
+}
+
+<h2>SearchResult</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.userName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.gender)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.age)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.shows)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.commitment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.streamingServices)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.userName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.gender)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.age)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.shows)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.commitment)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.streamingServices)
+        </td>
+        <td>
+            @Html.ActionLink("View profile", "Edit", new {  id=item.userID  })
+        </td>
+    </tr>
+}
+
+</table>
