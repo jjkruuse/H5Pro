@@ -6,6 +6,7 @@ using System.Web;
 
 namespace H5pro.Models
 {
+    // 2.3 UserHandler object
     public class UserHandler
     {
         [Required(ErrorMessage = "A user name is required")]

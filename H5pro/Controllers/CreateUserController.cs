@@ -10,13 +10,13 @@ namespace H5pro.Controllers
 {
     public class CreateUserController : Controller
     {
-        // GET: 
-
+        // 1.1.1 Shows the "Create user" site
         public ActionResult CreateUser()
         {
             return View();
         }
 
+        // 1.1.2 Function for creating a user
         [HttpPost]
         public ActionResult CreateUser(UserHandler uh)
         {
@@ -54,6 +54,7 @@ namespace H5pro.Controllers
             return View();
         }
 
+        // 1.1.3 Function to make sure that a valid user i created
         private bool validate(UserHandler user)
         {
             if (user.password.Length < 7)

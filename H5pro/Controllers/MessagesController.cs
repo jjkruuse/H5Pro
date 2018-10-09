@@ -11,34 +11,38 @@ namespace H5pro.Controllers
     {
         DataClassDataContext db = new DataClassDataContext();
 
-        // GET: Messages
+        // 1.4.1 Lists all messages recieved
         public ActionResult Messages()
         {
             List<Message> messages = db.Messages.ToList();
             int len = messages.Count;
             List<MessageHandler> messageHandlers = new List<MessageHandler>();
-            for (int i = 0; i < len; i++)
+            if (len > 0)
             {
-                Console.Out.WriteLine(i + " " + messages[i].MessageID.ToString());
+                for (int i = 0; i < len; i++)
+                {
+                    Console.Out.WriteLine(i + " " + messages[i].MessageID.ToString());
 
-                MessageHandler mh = new MessageHandler();
-                
-                mh.MessageID = messages[i].MessageID;
-                mh.FromUser = messages[i].FromUser;
-                mh.Sub = messages[i].Sub;
-                mh.TextMessage = messages[i].TextMessage;
-                mh.ToUser = messages[i].ToUser;
+                    MessageHandler mh = new MessageHandler();
 
-                int FromID = messages[i].FromUser;
-                var obj = db.Users.Where(a => a.UserID.Equals(FromID)).FirstOrDefault();
+                    mh.MessageID = messages[i].MessageID;
+                    mh.FromUser = messages[i].FromUser;
+                    mh.Sub = messages[i].Sub;
+                    mh.TextMessage = messages[i].TextMessage;
+                    mh.ToUser = messages[i].ToUser;
 
-                mh.FromName = obj.Username;
+                    int FromID = messages[i].FromUser;
+                    var obj = db.Users.Where(a => a.UserID.Equals(FromID)).FirstOrDefault();
 
-                messageHandlers.Add(mh);
+                    mh.FromName = obj.Username;
+
+                    messageHandlers.Add(mh);
+                }
             }
             return View(messageHandlers);
         }
 
+        // 1.4.2 Read message
         public ActionResult ReadMessage(int Id)
         {
             MessageHandler mh = new MessageHandler();
@@ -68,6 +72,7 @@ namespace H5pro.Controllers
             return View();
         }
 
+        // 1.4.3 Write message site
         public ActionResult NewMessage(int? id, string From, string Sub)
         {
             MessageHandler message = new MessageHandler();
@@ -84,7 +89,7 @@ namespace H5pro.Controllers
             return View();
         }
 
-
+        // 1.4.4 Sending message
         [HttpPost]
         public ActionResult NewMessage(Message message)
         {

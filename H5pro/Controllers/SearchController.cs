@@ -11,12 +11,13 @@ namespace H5pro.Controllers
     {
         DataClassDataContext db = new DataClassDataContext();
 
-        // GET: Search
+        // 1.5.1 Search site
         public ActionResult Search()
         {
             return View();
         }
 
+        // 1.5.2 Function for searching
         [HttpPost]
         public ActionResult Search(SearchHandler sh)
         {
@@ -49,7 +50,7 @@ namespace H5pro.Controllers
 
                 int test = user.Age.CompareTo(minAge);
 
-                if (!(sh.male == sh.female == sh.other))
+                if (!(sh.male ==  sh.female == sh.other))
                 {
                     if (!sh.male)
                     {
@@ -110,6 +111,7 @@ namespace H5pro.Controllers
             return View("SearchResult", results);
         }
 
+        // 1.5.3 Displaying result of search
         public ActionResult SearchResult(List<ResultHandler> result)
         {
             return View(result);

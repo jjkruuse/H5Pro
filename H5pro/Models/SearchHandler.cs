@@ -5,6 +5,7 @@ using System.Web;
 
 namespace H5pro.Models
 {
+    // 2.3 SearchHandler object
     public class SearchHandler
     {
         public string userName { get; set; }

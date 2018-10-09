@@ -10,11 +10,13 @@ namespace H5pro.Controllers
 {
     public class LoginController : Controller
     {
-        // GET: Login
+        // 1.3.1 Login site
         public ActionResult Login()
         {
             return View();
         }
+
+        // 1.3.2 login function
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Login(User objUser)
@@ -56,6 +58,7 @@ namespace H5pro.Controllers
             return View(objUser);
         }
 
+        // 1.3.3 Logout function
         public ActionResult LogOut()
         {
             

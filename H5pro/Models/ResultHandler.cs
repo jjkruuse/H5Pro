@@ -5,6 +5,7 @@ using System.Web;
 
 namespace H5pro.Models
 {
+    // 2.2 ResultHandler object
     public class ResultHandler
     {
         public int userID { get; set; }

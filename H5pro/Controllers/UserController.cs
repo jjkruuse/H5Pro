@@ -8,7 +8,7 @@ namespace H5pro.Controllers
 {
     public class UserController : Controller
     {
-        // GET: User
+        // 1.7.1 View profile
         public ActionResult Profil()
         {
             if (Session["UserID"] != null)
@@ -21,11 +21,13 @@ namespace H5pro.Controllers
             }
         }
 
+        // 1.7.2 Edit profile
         public ActionResult Edit()
         {
             return View();
         }
 
+        // 1.7.3 View shows
         public ActionResult Show()
         {
             DataClassDataContext db = new DataClassDataContext();
@@ -34,10 +36,14 @@ namespace H5pro.Controllers
 
             return View(show);
         }
+
+        // 1.7.4 Create show site
         public ActionResult Createshow()
         {
             return View();
         }
+
+        // 1.7.5 Create show function
         [HttpPost]
         public ActionResult Createshow(Show show)
         {

@@ -5,6 +5,7 @@ using System.Web;
 
 namespace H5pro.Models
 {
+    // 2.1 MessageHandler object
     public class MessageHandler
     {
         public int MessageID { get; set; }

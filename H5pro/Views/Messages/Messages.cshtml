@@ -4,11 +4,11 @@
 @using PagedList.Mvc;
 
 
-
-
 @{
     ViewBag.Title = "Messages";
 }
+
+@* 3.4.1 Messages site *@
 
 <h2>Messages</h2>
 <div class="form-group">
@@ -30,23 +30,23 @@
 
                 @foreach (var m in Model)
                 {
-                    <tr>
-                        <td>
-                            <div class="text">@m.Sub</div>
-                        </td>
-                        <td>
-                            <div class="text">@m.FromName</div>
-                        </td>
-                        <td>
-                            @Html.ActionLink("View", "ReadMessage", new { id = m.MessageID })
-                        </td>
-                        <td>
-                            <div class="text edit">
-                                <a class="delete" href="#" title="delete" onclick="messageDelete(@m.MessageID)"><img style="width: 17px; height: 15px" src="~/Images/no.png" /></a>
-                            </div>
-                        </td>
-                        <td><input type="hidden" id="MessageID" name="MessageID" value="@m.MessageID"></td>
-                    </tr>
+                <tr>
+                    <td>
+                        <div class="text">@m.FromName</div>
+                    </td>
+                    <td>
+                        <div class="text">@m.Sub</div>
+                    </td>
+                    <td>
+                        @Html.ActionLink("View", "ReadMessage", new { id = m.MessageID })
+                    </td>
+                    <td>
+                        <div class="text edit">
+                            <a class="delete" href="#" title="delete" onclick="messageDelete(@m.MessageID)"><img style="width: 17px; height: 15px" src="~/Images/no.png" /></a>
+                        </div>
+                    </td>
+                    <td><input type="hidden" id="MessageID" name="MessageID" value="@m.MessageID"></td>
+                </tr>
                 }
             </table>
         </div>
