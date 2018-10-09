@@ -7,8 +7,9 @@
     "\\H5pro\\Views",
     "\\H5pro\\Views\\CreateUser",
     "\\H5pro\\Views\\Login",
-    "\\H5pro\\Views\\Shared"
+    "\\H5pro\\Views\\Shared",
+    "\\H5pro\\Views\\User"
   ],
-  "SelectedNode": "\\H5pro\\Controllers\\CreateUserController.cs",
+  "SelectedNode": "\\H5pro\\Views\\Shared\\_Layout.cshtml",
   "PreviewInSolutionExplorer": false
 }
