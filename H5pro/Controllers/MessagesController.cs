@@ -14,7 +14,11 @@ namespace H5pro.Controllers
         // 1.4.1 Lists all messages recieved
         public ActionResult Messages()
         {
-            List<Message> messages = db.Messages.ToList();
+            int userID;
+
+            int.TryParse(Session["UserID"].ToString(), out userID);
+
+            List<Message> messages = db.Messages.Where(m => m.ToUser.Equals(userID)).ToList();
             int len = messages.Count;
             List<MessageHandler> messageHandlers = new List<MessageHandler>();
             if (len > 0)
@@ -47,10 +51,10 @@ namespace H5pro.Controllers
         {
             MessageHandler mh = new MessageHandler();
             int userID;
-            
+
             if (int.TryParse(Session["UserID"].ToString(), out userID))
             {
-                Message message = db.Messages.Where(m => m.MessageID.Equals(userID)).FirstOrDefault();
+                Message message = db.Messages.Where(m => m.MessageID.Equals(Id)).FirstOrDefault();
                 if (message != null)
                 {
                     if ((message.FromUser.Equals(userID)) || message.ToUser.Equals(userID))
